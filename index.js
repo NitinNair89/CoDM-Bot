@@ -1,5 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const Discord = require("discord.js");
-const config = require("./config.json");
 const client = new Discord.Client();
 
 const prefix = "!";
@@ -81,4 +84,4 @@ I am still learning. Right now I can:
     }
 }); 
 
-client.login(config.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
