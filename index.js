@@ -26,11 +26,9 @@ var stream = T.stream('statuses/filter', {
 
 stream.on('tweet', function (tweet) {
     if ( !isReply(tweet) ) {
-        const twitterMessage = `
-        Check it out @everyone. ${tweet.user.screen_name} just tweeted this:/n 
-        https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}
-        ******************************
-        `;
+        const twitterMessage = `Check this out @everyone :star_struck:
+${tweet.user.screen_name} just posted this on their Twitter account: 
+https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
         client.channels.cache.get(process.env.DISCORD_CHANNEL).send(twitterMessage);
     }
 });
