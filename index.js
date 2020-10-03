@@ -2,11 +2,34 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+const Twit = require('twit')
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+client.login(process.env.BOT_TOKEN);
+
 const prefix = "!";
 let isBotSleeping = false;
+
+const T = new Twit({
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token: process.env.ACCESS_TOKEN,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+    timeout_ms: 60*1000,
+    strictSSL: true,
+});
+
+var stream = T.stream('statuses/filter', {
+    follow: '1166443278834659328, 1176161051827757062'
+});
+
+stream.on('tweet', function (tweet) {
+    if ( !isReply(tweet) ) {
+        const twitterMessage = `Check it out guys. CoDM just tweeted this: https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+        client.channels.cache.get(process.env.DISCORD_CHANNEL).send(twitterMessage);
+    }
+});
 
 client.on("message", function(message) {
     if (message.author.bot) return;
@@ -31,7 +54,7 @@ client.on("message", function(message) {
         case "goodnight":
             message.reply(`Goodnight!`);
             message.channel.send(`Goodnight @everyone.`);
-            message.channel.send("Let me rest a bit. :yawning_face:");
+            message.channel.send("I will stay awake a bit longer. Send !stop to put me in standy mode.");
             break;
 
         // CASUAL
@@ -75,6 +98,8 @@ I am still learning. Right now I can:
                 message.channel.send(`There can be only one winner. Let's go! @everyone`);
             } else if ( lang === "hindi" ) {
                 message.channel.send(`Chalo CoD khelte hai! @everyone`);
+            } else {
+                message.channel.send(`There can be only one winner. Let's go! @everyone`);
             }
             break;
     
@@ -84,4 +109,15 @@ I am still learning. Right now I can:
     }
 }); 
 
-client.login(process.env.BOT_TOKEN);
+
+// SOURCE:
+// https://github.com/ttezel/twit/issues/286#issuecomment-236315960
+function isReply(tweet) {
+    if (tweet.retweeted_status
+      || tweet.in_reply_to_status_id
+      || tweet.in_reply_to_status_id_str
+      || tweet.in_reply_to_user_id
+      || tweet.in_reply_to_user_id_str
+      || tweet.in_reply_to_screen_name) return true;
+    return false;
+  }
