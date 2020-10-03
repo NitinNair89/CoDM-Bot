@@ -101,7 +101,7 @@ client.on("message", function(message) {
 
         case "thanks":
         case "thankyou":
-            message.reply(`you're welcome :blush.`)
+            message.reply(`you're welcome :blush:`)
             break;
     
         default:
