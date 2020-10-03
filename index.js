@@ -26,7 +26,11 @@ var stream = T.stream('statuses/filter', {
 
 stream.on('tweet', function (tweet) {
     if ( !isReply(tweet) ) {
-        const twitterMessage = `Check it out guys. CoDM just tweeted this: https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+        const twitterMessage = `
+        Check it out @everyone. ${tweet.user.screen_name} just tweeted this:/n 
+        https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}
+        ******************************
+        `;
         client.channels.cache.get(process.env.DISCORD_CHANNEL).send(twitterMessage);
     }
 });
@@ -79,14 +83,6 @@ client.on("message", function(message) {
             isBotSleeping = true;
             break;
 
-        case "help":
-            message.reply(`
-I am still learning. Right now I can:
-    - !ping : Share latency
-    - !gameon english/hindi : Notify everyone to play CoDM
-`);
-            break;
-
         case "ping":
             const timeTaken = Date.now() - message.createdTimestamp;
             message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
@@ -101,6 +97,11 @@ I am still learning. Right now I can:
             } else {
                 message.channel.send(`There can be only one winner. Let's go! @everyone`);
             }
+            break;
+
+        case "thanks":
+        case "thankyou":
+            message.reply(`you're welcome :blush.`)
             break;
     
         default:
