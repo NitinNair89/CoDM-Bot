@@ -148,7 +148,14 @@ client.on("message", function(message) {
             }
             break;
     
-        default:
+        case "welcome":
+            const user = args[0];
+            if ( user !== undefined ) {
+                message.channel.send(`Excited to have you here on our server, ${user}. :smiley:`);
+            }
+            break;
+        
+            default:
             message.reply("I did not understand that. Sorry! :slightly_frowning_face:");
             message.author.send("Hi! Since I failed to understand your message, I have asked Dev team to check.");
 
