@@ -11,6 +11,11 @@ client.login(process.env.BOT_TOKEN);
 const prefix = "!";
 let isBotSleeping = false;
 
+// Object to store user's custom settings for reference
+const userSettings = {
+    "nickname": []
+}
+
 const T = new Twit({
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
@@ -31,6 +36,14 @@ ${tweet.user.screen_name} just posted this on their Twitter account:
 https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
         client.channels.cache.get(process.env.DISCORD_CHANNEL).send(twitterMessage);
     }
+});
+
+
+// Welcome new members
+client.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
+    if (!channel) return;
+    channel.send(`${member} just joined this server. Let's give a warm welcome :smiley:`);
 });
 
 client.on("message", function(message) {
@@ -101,9 +114,47 @@ client.on("message", function(message) {
         case "thankyou":
             message.reply(`you're welcome :blush:`)
             break;
+
+        case "nickname":
+            const n = args[0];
+            if ( n === undefined ) {
+                message.reply("use `!nickname name` to give me a nick name. :smiley:");
+            } else {
+                if ( n === "reset" ) {
+                    resetNickname(message.author.username);
+                    message.reply("I have removed the nickname. You can set it again with `!nickname name`");
+                } else {
+                    // Check if user already set a nickname for Bot, if not add nickname else share command to reset
+                    const len = userSettings.nickname.length;
+                    let isNicknameSet = false;
+                    if ( len !== 0 ) {
+                        for ( let i = 0; i < userSettings.nickname.length; i++ ) {
+                            if ( userSettings.nickname[i].by === message.author.username ) {
+                                message.reply("you've already given me a nickname. :smiley: You can reset by `!nickname reset`");
+                                isNicknameSet = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ( !isNicknameSet ) {
+                        const nickname = {
+                            "name": n,
+                            "by": message.author.username
+                        };
+                        userSettings.nickname.push(nickname);
+                        message.reply("thank you for giving me a nickname :blush:");
+                    }
+                }
+            }
+            break;
     
         default:
             message.reply("I did not understand that. Sorry! :slightly_frowning_face:");
+            message.author.send("Hi! Since I failed to understand your message, I have asked Dev team to check.");
+
+            client.channels.cache.get('761665371249049650').send(`Hi! I could not understand the below message sent by ${message.author.username}`);
+            client.channels.cache.get('761665371249049650').send("`" + message + "`");
+            client.channels.cache.get('761665371249049650').send('Please check once.');
             break;
     }
 }); 
@@ -120,3 +171,13 @@ function isReply(tweet) {
       || tweet.in_reply_to_screen_name) return true;
     return false;
   }
+
+// Function to reset Bot nickname
+const resetNickname = (username) => {
+    for ( let i = 0; i < userSettings.nickname.length; i++ ) {
+        if ( userSettings.nickname[i].by === username ) {
+            userSettings.nickname.splice(i,1);
+            break;
+        }
+    }
+}
