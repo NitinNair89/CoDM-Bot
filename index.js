@@ -153,7 +153,7 @@ client.on("message", function(message) {
             message.author.send("Hi! Since I failed to understand your message, I have asked Dev team to check.");
 
             client.channels.cache.get('761665371249049650').send(`Hi! I could not understand the below message sent by ${message.author.username}`);
-            client.channels.cache.get('761665371249049650').send("`" + message + "`");
+            client.channels.cache.get('761665371249049650').send(message);
             client.channels.cache.get('761665371249049650').send('Please check once.');
             break;
     }
