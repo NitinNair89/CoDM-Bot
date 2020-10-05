@@ -31,7 +31,7 @@ var stream = T.stream('statuses/filter', {
 
 stream.on('tweet', function (tweet) {
     if ( !isReply(tweet) ) {
-        const twitterMessage = `Check this out @everyone :star_struck:
+        const twitterMessage = `Incoming intel from HQ! Requesting your attention @everyone.
 ${tweet.user.screen_name} just posted this on their Twitter account: 
 https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
         client.channels.cache.get(process.env.DISCORD_CHANNEL).send(twitterMessage);
@@ -59,17 +59,14 @@ client.on("message", function(message) {
         case "morning":
         case "wakeup":
         case "goodmorning":
-            message.reply(`Good Morning! :sun_with_face:`);
-            message.channel.send(`Good Morning @everyone`);
+            message.reply(`a very good morning! Hope you had a good sleep. :sun_with_face:`);
             isBotSleeping = false;
             break;
 
         case "night":
         case "sleep":
         case "goodnight":
-            message.reply(`Goodnight!`);
-            message.channel.send(`Goodnight @everyone.`);
-            message.channel.send("I will stay awake a bit longer. Send !stop to put me in standy mode.");
+            message.reply(`have a good night's rest. :crescent_moon:`);
             break;
 
         // CASUAL
@@ -77,26 +74,26 @@ client.on("message", function(message) {
         case "hi":
         case "wassup":
             if ( !isBotSleeping ) {
-                message.reply(`Hey wassup!`);
+                message.reply(`hey wassup!`);
             } else {
-                message.reply(`Bot is sleeping. To wake up, send !start`);
+                message.reply(`I'm sleeping. To wake me, send !start`);
             }
             break;
 
         // WAKE/SLEEP
         case "start":
-            message.reply("Did you message? I'm awake now. :sunglasses:");
+            message.reply("did you message? I'm awake now. :sunglasses:");
             isBotSleeping = false;
             break;
 
         case "stop":
-            message.reply("Thank you. Let me rest for a while. :yawning_face:");
+            message.reply("thank you. Let me rest a bit. :yawning_face:");
             isBotSleeping = true;
             break;
 
         case "ping":
             const timeTaken = Date.now() - message.createdTimestamp;
-            message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+            message.reply(`pong! Latency => ${timeTaken}ms.`);
             break;
 
         case "gameon":
@@ -155,7 +152,7 @@ client.on("message", function(message) {
             }
             break;
         
-            default:
+        default:
             message.reply("I did not understand that. Sorry! :slightly_frowning_face:");
             message.author.send("Hi! Since I failed to understand your message, I have asked Dev team to check.");
 
