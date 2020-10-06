@@ -93,7 +93,15 @@ client.on("message", function(message) {
 
         case "ping":
             const timeTaken = Date.now() - message.createdTimestamp;
-            message.reply(`pong! Latency => ${timeTaken}ms.`);
+            if ( timeTaken <= 25 ) {
+                message.reply(`Latency is: ${timeTaken}ms, perfect for playing CoDM right now.`);
+            } else if ( timeTaken > 25 && timeTaken <= 50) {
+                message.reply(`Latency is: ${timeTaken}ms. You may face minor frame skips during gameplay.`);
+            } else if ( timeTaken > 50 && timeTaken <= 75 ) {
+                message.reply(`Latency is: ${timeTaken}ms. Sorry bud, you will lag.`);
+            } else if ( timeTaken > 75 ) {
+                message.reply(`Latency is: ${timeTaken}ms. I won't recommend playing games right now.`);
+            }
             break;
 
         case "gameon":
