@@ -2,9 +2,9 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 const fs = require('fs');
-const Twit = require('twit')
+const Twit = require('twit');
 const Discord = require("discord.js");
-const config = require("./config")
+const config = require("./config");
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -49,20 +49,21 @@ https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
 });
 
 // Set the bot's presence (activity and status)
-client.once("ready", () => {
+client.on("ready", () => {
     client.user.setPresence({
-        game: { 
-            name: 'Twitter',
-            type: 'WATCHING'
-        },
-        status: 'online'
+        status: 'online',
+        activity: {
+            name: 'Just busy',
+            type: 'BROWSING',
+            url: 'https://www.twitter.com/'
+        }
     });
     console.log("CoDM-Bot is ready!");
 
-    if ( config.broadcast ) {
+    if ( process.env.NODE_ENV.broadcast ) {
         const broadcastMessage = require('./broadcast');
         //client.channels.cache.get(client.guilds.systemChannelID).send({ embed: broadcastMessage });
-        client.channels.cache.get(config.channel).send({ embed: broadcastMessage });
+        client.channels.cache.get(process.env.NODE_ENV.channel).send({ embed: broadcastMessage });
     }
 });
 
@@ -89,7 +90,7 @@ client.on("message", function(message) {
         //console.log(message);
         command.execute(message, args);
     } catch (error) {
-        //console.log(error);
+        console.log(error);
         message.reply('I could not understand it. :worried:');
         client.channels.cache.get('761665371249049650').send(`An error occurred executing the below command sent by: ${message.author.username}`);
         client.channels.cache.get('761665371249049650').send(message);
