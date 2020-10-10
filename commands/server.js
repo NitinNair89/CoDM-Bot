@@ -12,7 +12,7 @@ module.exports = {
         .setColor('#8E24AA')
         //.setTitle('Server Information')
         //.setURL('https://discord.js.org/')
-        .setAuthor('CoDM-Bot', '', '')
+        //.setAuthor('CoDM-Bot', '', '')
         //.setDescription('')
         //.setThumbnail('bot logo here')
         .addFields(
