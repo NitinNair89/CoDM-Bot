@@ -49,21 +49,21 @@ https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
 });
 
 // Set the bot's presence (activity and status)
-client.on("ready", () => {
+client.once("ready", () => {
     client.user.setPresence({
         status: 'online',
         activity: {
-            name: 'Just busy',
-            type: 'BROWSING',
+            name: 'Twitter',
+            type: 'WATCHING',
             url: 'https://www.twitter.com/'
         }
     });
     console.log("CoDM-Bot is ready!");
 
-    if ( process.env.NODE_ENV.broadcast ) {
+    if ( config.production.broadcast ) {
         const broadcastMessage = require('./broadcast');
         //client.channels.cache.get(client.guilds.systemChannelID).send({ embed: broadcastMessage });
-        client.channels.cache.get(process.env.NODE_ENV.channel).send({ embed: broadcastMessage });
+        client.channels.cache.get(config.production.channel).send({ embed: broadcastMessage });
     }
 });
 
