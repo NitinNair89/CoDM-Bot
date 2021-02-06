@@ -1,6 +1,6 @@
 {
   "name": "codm-bot",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A Discord Bot for my Call of Duty: Mobile gaming community server",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
   "dependencies": {
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
+    "request": "^2.88.2",
     "twit": "^2.2.11"
   },
   "devDependencies": {
