@@ -7,18 +7,18 @@ module.exports = {
 	// 	icon_url: 'https://i.imgur.com/wSTFkRM.png',
 	// 	url: 'https://discord.js.org',
 	// },
-	description: 'I am now at v1.3.0. A new command was added, try it out. :wink:',
+	description: 'I am now at v1.4.0. A new command was added.',
 	thumbnail: {
 		//url: 'bot logo here',
 	},
 	fields: [
         {
             name: 'CoDM-Bot version',
-            value: 'v1.3.0'
+            value: 'v1.4.0'
         },
 		{
-			name: '!help',
-			value: 'This command will display list of available commands. :smiley:',
+			name: '!gameoff',
+			value: 'Try it out. :wink:',
 		},
         { name: '\u200B', value: '\u200B' },
 	],

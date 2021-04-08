@@ -11,7 +11,10 @@ module.exports = {
             message.channel.send('I can process only ONE search word. :slight_frown: ');
         } else {
             request(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_KEY}&q=${args}&limit=1&offset=0&rating=g&lang=en`, { json: true }, (err, res, body) => {
-                if (err) { return console.log(err); }
+                if (err) { 
+                    message.channel.send('Oops! Something went wrong. Try another word. :frowning:');
+                    return;
+                 }
 
                 const exampleEmbed = {
                     image: {
