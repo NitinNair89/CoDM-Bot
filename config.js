@@ -5,7 +5,7 @@ module.exports = {
         channel: '761665371249049650'
     },
     production: {
-        broadcast: false,
+        broadcast: true,
         channel: '719960650306027603'
     }
 }
