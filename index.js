@@ -58,15 +58,7 @@ client.once("ready", () => {
             url: 'https://www.twitter.com/'
         }
     });
-    console.log("CoDM-Bot is ready!");
-
-    if ( config.production.broadcast ) {
-        const broadcastMessage = require('./broadcast');
-        //client.channels.cache.get(client.guilds.systemChannelID).send({ embed: broadcastMessage });
-        client.channels.cache.get(config.production.channel).send({ embed: broadcastMessage });
-    }
 });
-
 
 // Welcome new members
 client.on('guildMemberAdd', member => {

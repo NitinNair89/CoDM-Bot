@@ -6,9 +6,6 @@ module.exports = {
     aliases: ['whatsnew', 'new'],
 	description: 'Displays newly released CoDM-Bot features',
 	execute(message, args) {
-        //console.log(message);
-
-        //broadcastMessage = new Discord.MessageEmbed();
         message.channel.send({ embed: broadcastMessage });
 	},
 };
